@@ -42,7 +42,15 @@ $(document).ready(function() {
     'height': '100%',
 		'padding': 0,
 		'transitionIn': 'none',
-    'autoDimensions': false
+    'transitionOut': 'none',
+    'autoDimensions': false,
+    'onComplete': function() {
+      // window.location.href = window.location.href.split('#')[0] + $(this).attr('href');
+      window.location.href = $(this).attr('href');
+    },
+    'onClosed': function() {
+      window.location.href = window.location.href.split('#')[0];
+    }
   });
 
 	// Hide src files and file list container after load
@@ -82,8 +90,16 @@ $(document).ready(function() {
     return false;
   });
 
-  if (jQuery.url.attr('anchor')) {
-    $('.group_tabs a.'+jQuery.url.attr('anchor').replace('_', '')).click();
+  // handle anchor hashtag in url
+  var anchor = jQuery.url.attr('anchor');
+  if (anchor) {
+    if (anchor.indexOf("_") >= 0) {
+      // select tab
+      $('.group_tabs a.'+anchor.replace('_', '')).click();
+    } else {
+      // activate fancybox
+      $('a.src_link[href="#'+anchor+'"]').click();
+    }
   } else {
     $('.group_tabs a:first').click();
   };
