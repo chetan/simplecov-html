@@ -34,6 +34,8 @@ $(document).ready(function() {
     };
   });
 
+  var prev_anchor = undefined;
+
   // Set-up of popup for source file views
   $("a.src_link").fancybox({
 		'hideOnContentClick': true,
@@ -45,11 +47,11 @@ $(document).ready(function() {
     'transitionOut': 'none',
     'autoDimensions': false,
     'onComplete': function() {
-      // window.location.href = window.location.href.split('#')[0] + $(this).attr('href');
+      prev_anchor = window.location.href.split('#')[1];
       window.location.href = $(this).attr('href');
     },
     'onClosed': function() {
-      window.location.href = window.location.href.split('#')[0];
+      window.location.href = window.location.href.split('#')[0] + "#" + (prev_anchor ? prev_anchor : "");
     }
   });
 
