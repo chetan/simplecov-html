@@ -38,7 +38,7 @@ $(document).ready(function() {
   $("a.src_link").fancybox({
 		'hideOnContentClick': true,
 		'centerOnScroll': true,
-		'width': '90%',
+		'width': '100%',
 		'padding': 0,
 		'transitionIn': 'elastic'
   });
