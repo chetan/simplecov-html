@@ -1,6 +1,14 @@
 require 'bundler'
 Bundler::GemHelper.install_tasks
 
+# See https://github.com/colszowka/simplecov/issues/171
+desc "Set permissions on all files so they are compatible with both user-local and system-wide installs"
+task :fix_permissions do
+  system 'bash -c "find . -type f -exec chmod 644 {} \; && find . -type d -exec chmod 755 {} \;"'
+end
+# Enforce proper permissions on each build
+Rake::Task[:build].prerequisites.unshift :fix_permissions
+
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
@@ -9,13 +17,6 @@ Rake::TestTask.new(:test) do |test|
 end
 
 task :default => :test
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
 
 namespace :assets do
   desc "Compiles all assets"
