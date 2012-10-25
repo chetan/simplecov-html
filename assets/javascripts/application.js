@@ -34,24 +34,34 @@ $(document).ready(function() {
     };
   });
 
-  var prev_anchor = undefined;
+  var prev_anchor;
+  var curr_anchor;
 
   // Set-up of popup for source file views
-  $("a.src_link").fancybox({
-		'hideOnContentClick': true,
-		'centerOnScroll': true,
-		'width': '99%',
-    'height': '100%',
-		'padding': 0,
-		'transitionIn': 'none',
-    'transitionOut': 'none',
-    'autoDimensions': false,
-    'onComplete': function() {
-      prev_anchor = window.location.href.split('#')[1];
-      window.location.href = $(this).attr('href');
+  $("a.src_link").colorbox({
+    transition: "none",
+    inline: true,
+    iframe: true,
+    opacity: 1,
+    width: "95%",
+    height: "95%",
+    onLoad: function() {
+      if (prev_anchor) {
+        prev_anchor = jQuery.url.attr('anchor');
+      }
+      curr_anchor = this.href.split('#')[1];
+      window.location.hash = curr_anchor;
     },
-    'onClosed': function() {
-      window.location.href = window.location.href.split('#')[0] + "#" + (prev_anchor ? prev_anchor : "");
+    onCleanup: function() {
+      if (prev_anchor) {
+        $('a[href="#'+prev_anchor+'"]').click();
+        curr_anchor = prev_anchor;
+      } else {
+        $('.group_tabs a:first').click();
+        prev_anchor = curr_anchor;
+        curr_anchor = "#_AllFiles";
+      }
+      window.location.hash = curr_anchor;
     }
   });
 
