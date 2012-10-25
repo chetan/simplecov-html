@@ -1487,21 +1487,13 @@ $(document).ready(function() {
     width: "95%",
     height: "95%",
     onLoad: function() {
-      console.log("load");
-      console.log(jQuery.url.attr('anchor'));
-      console.log("prev_anchor was ", prev_anchor);
       if (prev_anchor) {
-      prev_anchor = jQuery.url.attr('anchor');
-
+        prev_anchor = jQuery.url.attr('anchor');
       }
       curr_anchor = this.href.split('#')[1];
       window.location.hash = curr_anchor;
     },
     onCleanup: function() {
-      console.log("cleanup");
-      console.log("prev_anchor was ", prev_anchor);
-      // prev_anchor = jQuery.url.attr('anchor');
-      // console.log("prev_anchor now ", prev_anchor);
       if (prev_anchor) {
         $('a[href="#'+prev_anchor+'"]').click();
         curr_anchor = prev_anchor;
